@@ -3,4 +3,7 @@
     <string name="action_settings">Settings</string>
     <string name="string_login_button">Login</string>
     <string name="string_logout_button">Logout</string>
+    <string name="string_display_devices_button">Display Devices</string>
+    <string name="string_default_torch_message">IoT Hackday 2015</string>
+    <string name="string_send_txt_message_button">Send Text</string>
 </resources>
