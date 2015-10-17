@@ -15,11 +15,12 @@
         <LinearLayout
             android:orientation="horizontal"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:baselineAligned="false">
 
             <LinearLayout
                 android:orientation="vertical"
-                android:layout_width="match_parent"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1">
 
@@ -42,15 +43,13 @@
                     android:layout_height="wrap_content"
                     android:text="@string/string_login_button"
                     android:id="@+id/loginBtn"
-                    android:nestedScrollingEnabled="false"
-                    android:onClick="onClickLoginBtn" />
+                    android:nestedScrollingEnabled="false" />
 
                 <Button
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="@string/string_logout_button"
-                    android:id="@+id/logoutBtn"
-                    android:onClick="onClickLogoutBtn" />
+                    android:id="@+id/logoutBtn" />
             </LinearLayout>
 
         </LinearLayout>
@@ -59,13 +58,15 @@
             android:orientation="horizontal"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginTop="20dp">
+            android:layout_marginTop="20dp"
+            android:baselineAligned="false"
+            android:layout_weight="1"
+            android:layout_marginBottom="0dp">
 
             <LinearLayout
                 android:orientation="vertical"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:layout_alignParentRight="true"
                 android:layout_weight="1">
 
                 <Button
@@ -101,6 +102,18 @@
 
             </LinearLayout>
 
+        </LinearLayout>
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginTop="0dp">
+
+            <ListView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/deviceListView" />
         </LinearLayout>
 
     </LinearLayout>

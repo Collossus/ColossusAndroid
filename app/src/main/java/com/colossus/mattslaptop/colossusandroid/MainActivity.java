@@ -12,9 +12,11 @@ import android.view.View;
 import android.widget.EditText;
 
 import java.io.IOException;
+import java.util.List;
 
 import io.particle.android.sdk.cloud.ParticleCloud;
 import io.particle.android.sdk.cloud.ParticleCloudException;
+import io.particle.android.sdk.cloud.ParticleDevice;
 import io.particle.android.sdk.utils.Async;
 import io.particle.android.sdk.utils.Toaster;
 
@@ -22,6 +24,7 @@ public class MainActivity extends AppCompatActivity {
 
     protected final String CLASS_NAME = "MainActivity";
     protected final String LOGIN_ERROR = "Failed to Login: ";
+    protected List<ParticleDevice> particleList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,8 +70,26 @@ public class MainActivity extends AppCompatActivity {
         //calling the Particle API method to login
         Async.executeAsync(ParticleCloud.get(view.getContext()), new Async.ApiWork<ParticleCloud, Integer>() {
             public Integer callApi(ParticleCloud particleCloud) throws ParticleCloudException, IOException {
+                //logging in
                 particleCloud.logIn(getUserName(), getPassword());
 
+                //getting a list of devices and passing it into the fragment to inflate the list
+                particleList = particleCloud.getDevices();
+
+                //showing them in the list view
+
+
+                /**
+                mDevice = sparkCloud.getDevice("1f0034000747343232361234");
+                Integer variable;
+                try {
+                    variable = mDevice.getVariable("analogvalue");
+                } catch (ParticleDevice.VariableDoesNotExistException e) {
+                    Toaster.s(LoginActivity.this, "Error reading variable");
+                    variable = -1;
+                }
+                return variable;
+                */
                 return 1;
             }
 
