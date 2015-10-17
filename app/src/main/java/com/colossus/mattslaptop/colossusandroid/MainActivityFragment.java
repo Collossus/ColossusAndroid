@@ -15,6 +15,7 @@ import android.widget.ListView;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 import io.particle.android.sdk.cloud.ParticleCloud;
 import io.particle.android.sdk.cloud.ParticleCloudException;
@@ -153,6 +154,12 @@ public class MainActivityFragment extends Fragment{
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                     //based on which one was clicked we can select it and perform some actions
                     userSelectedDevice = particleList.get(position);
+
+                    //toast the services
+                    Set<String> services = userSelectedDevice.getFunctions();
+                    for (int i = 0; i< services.size(); i++){
+                        Log.e(CLASS_NAME, userSelectedDevice.getName() +": Function " +i+" "+ services.toString());
+                    }
                 }
             });
         }
@@ -168,7 +175,7 @@ public class MainActivityFragment extends Fragment{
                 public Integer callApi(ParticleDevice particleDevice) throws ParticleCloudException, IOException {
                     //creating a list of Strings
                     List<String> outputText = new ArrayList<String>();
-                    outputText.add(torchMsgText.getText().toString());
+                    outputText.add("args="+torchMsgText.getText().toString());
                     try {
                         return particleDevice.callFunction("message", outputText);
                     } catch (ParticleDevice.FunctionDoesNotExistException e) {
