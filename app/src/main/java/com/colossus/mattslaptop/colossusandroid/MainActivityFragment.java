@@ -19,6 +19,7 @@ import java.util.Set;
 
 import io.particle.android.sdk.cloud.ParticleCloud;
 import io.particle.android.sdk.cloud.ParticleCloudException;
+import io.particle.android.sdk.cloud.ParticleCloudSDK;
 import io.particle.android.sdk.cloud.ParticleDevice;
 import io.particle.android.sdk.utils.Async;
 import io.particle.android.sdk.utils.Toaster;
@@ -90,7 +91,7 @@ public class MainActivityFragment extends Fragment{
     View.OnClickListener loginBtnClickListener = new View.OnClickListener() {
         public void onClick(View v) {
             //calling the Particle API method to login
-            Async.executeAsync(ParticleCloud.get(v.getContext()), new Async.ApiWork<ParticleCloud, Integer>() {
+            Async.executeAsync(ParticleCloudSDK.getCloud(), new Async.ApiWork<ParticleCloud, Integer>() {
                 public Integer callApi(ParticleCloud particleCloud) throws ParticleCloudException, IOException {
                     //logging in
                     particleCloud.logIn(getUserName(), getPassword());
@@ -117,7 +118,7 @@ public class MainActivityFragment extends Fragment{
     View.OnClickListener logoutBtnClickListener = new View.OnClickListener() {
         public void onClick(View v) {
             //Log out API call
-            ParticleCloud.get(v.getContext()).logOut();
+            ParticleCloudSDK.getCloud().logOut();
             //Toaster
             Toaster.l(getActivity(), "Logged out");
         }
@@ -155,10 +156,10 @@ public class MainActivityFragment extends Fragment{
                     //based on which one was clicked we can select it and perform some actions
                     userSelectedDevice = particleList.get(position);
 
-                    //toast the services
+                    //Log.e the services
                     Set<String> services = userSelectedDevice.getFunctions();
-                    for (int i = 0; i< services.size(); i++){
-                        Log.e(CLASS_NAME, userSelectedDevice.getName() +": Function " +i+" "+ services.toString());
+                    if (services.size() == 0) {
+                        Toaster.l(getActivity(), "No services for this core!");
                     }
                 }
             });
@@ -175,7 +176,7 @@ public class MainActivityFragment extends Fragment{
                 public Integer callApi(ParticleDevice particleDevice) throws ParticleCloudException, IOException {
                     //creating a list of Strings
                     List<String> outputText = new ArrayList<String>();
-                    outputText.add("args="+torchMsgText.getText().toString());
+                    outputText.add(torchMsgText.getText().toString());
                     try {
                         return particleDevice.callFunction("message", outputText);
                     } catch (ParticleDevice.FunctionDoesNotExistException e) {

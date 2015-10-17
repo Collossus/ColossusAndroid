@@ -11,6 +11,7 @@ import android.view.View;
 
 import java.util.List;
 
+import io.particle.android.sdk.cloud.ParticleCloudSDK;
 import io.particle.android.sdk.cloud.ParticleDevice;
 
 public class MainActivity extends AppCompatActivity {
@@ -34,6 +35,9 @@ public class MainActivity extends AppCompatActivity {
                         .setAction("Action", null).show();
             }
         });
+
+        //Particle Init
+        ParticleCloudSDK.init(this);
     }
 
     @Override
