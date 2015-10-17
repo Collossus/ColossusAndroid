@@ -5,20 +5,13 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.EditText;
 
-import java.io.IOException;
 import java.util.List;
 
-import io.particle.android.sdk.cloud.ParticleCloud;
-import io.particle.android.sdk.cloud.ParticleCloudException;
 import io.particle.android.sdk.cloud.ParticleDevice;
-import io.particle.android.sdk.utils.Async;
-import io.particle.android.sdk.utils.Toaster;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -65,64 +58,4 @@ public class MainActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    //this is the button click listener method for the log in button.  It calls
-    public void onClickLoginBtn(View view){
-        //calling the Particle API method to login
-        Async.executeAsync(ParticleCloud.get(view.getContext()), new Async.ApiWork<ParticleCloud, Integer>() {
-            public Integer callApi(ParticleCloud particleCloud) throws ParticleCloudException, IOException {
-                //logging in
-                particleCloud.logIn(getUserName(), getPassword());
-
-                //getting a list of devices and passing it into the fragment to inflate the list
-                particleList = particleCloud.getDevices();
-
-                //showing them in the list view
-
-
-                /**
-                mDevice = sparkCloud.getDevice("1f0034000747343232361234");
-                Integer variable;
-                try {
-                    variable = mDevice.getVariable("analogvalue");
-                } catch (ParticleDevice.VariableDoesNotExistException e) {
-                    Toaster.s(LoginActivity.this, "Error reading variable");
-                    variable = -1;
-                }
-                return variable;
-                */
-                return 1;
-            }
-
-            //
-            @Override
-            public void onSuccess(Integer value) {
-                Toaster.l(MainActivity.this, "Logged in");
-            }
-
-            @Override
-            public void onFailure(ParticleCloudException e) {
-                Log.e(CLASS_NAME, LOGIN_ERROR + e);
-                Toaster.l(MainActivity.this, "Wrong credentials or no internet connectivity, please try again");
-            }
-        });
-    }
-
-    //this method gets the login user name string, there is no input validation, it just grabs the string and returns it
-    public String getUserName(){
-        EditText loginText = (EditText)findViewById(R.id.loginEmail);
-        return loginText.getText().toString();
-    }
-
-    //this method gets the login user name string, there is no input validation, it just grabs the string and returns it
-    public String getPassword(){
-        EditText pswdText = (EditText)findViewById(R.id.loginPassword);
-        return pswdText.getText().toString();
-    }
-
-    public void onClickLogoutBtn(View view){
-        //Log out API call
-        ParticleCloud.get(view.getContext()).logOut();
-        //Toaster
-        Toaster.l(MainActivity.this, "Logged out");
-    }
 }
